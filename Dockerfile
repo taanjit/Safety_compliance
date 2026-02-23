@@ -32,7 +32,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# Copy model weights (required if not using a trained run)
+COPY *.pt ./
+
+# Copy project structure
 COPY config/ config/
 COPY utils/ utils/
 COPY scheduler.py .
@@ -41,11 +44,12 @@ COPY predict.py .
 COPY evaluate.py .
 COPY docker_entrypoint.py .
 
-# Copy trained model weights if available
+# Copy trained model weights if available (from local training)
+# Note: This will copy the runs folder if it exists in the build context
 COPY runs/ runs/
 
-# Create default mount points
-RUN mkdir -p /data/input /data/output /app/logs
+# Create default mount points and log directory
+RUN mkdir -p /data/input /data/output /app/logs && chmod 777 /app/logs
 
 # Default environment variables (can be overridden at runtime)
 ENV INPUT_DIR=/data/input
@@ -53,5 +57,13 @@ ENV OUTPUT_DIR=/data/output
 ENV CONFIDENCE=0.5
 ENV FRAME_SKIP=10
 ENV POLL_INTERVAL=30
+ENV IMGSZ=640
+ENV DEVICE=""
+
+# Expose nothing (no web server), just a CLI tool
+# metadata
+LABEL maintainer="Safety Compliance Team"
+LABEL version="1.1.0"
+LABEL description="PPE Detection Scheduler for monitoring and processing videos."
 
 ENTRYPOINT ["python3", "docker_entrypoint.py"]

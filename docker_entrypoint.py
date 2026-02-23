@@ -10,6 +10,8 @@ Environment Variables:
     CONFIDENCE     — Confidence threshold  (default: 0.5)
     FRAME_SKIP     — Frame skip rate       (default: 10)
     POLL_INTERVAL  — Polling interval in s (default: 30)
+    IMGSZ          — Inference image size  (default: 640)
+    DEVICE         — Device for inference  (default: "")
 """
 
 import argparse
@@ -46,6 +48,12 @@ def parse_args() -> argparse.Namespace:
                         help="Polling interval in seconds")
     parser.add_argument("--model", type=str, default=None,
                         help="Path to model weights (.pt)")
+    parser.add_argument("--imgsz", type=int,
+                        default=int(os.environ.get("IMGSZ", "640")),
+                        help="Inference image size")
+    parser.add_argument("--device", type=str,
+                        default=os.environ.get("DEVICE", ""),
+                        help="Device for inference (e.g. 0 or cpu)")
     parser.add_argument("--once", action="store_true",
                         help="Run a single scan and exit")
     return parser.parse_args()
@@ -75,6 +83,8 @@ def main():
         "--poll", str(args.poll),
         "--frame-skip", str(args.frame_skip),
         "--conf", str(args.conf),
+        "--imgsz", str(args.imgsz),
+        "--device", args.device,
     ]
     if args.model:
         sys.argv += ["--model", args.model]
