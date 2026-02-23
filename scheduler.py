@@ -15,6 +15,7 @@ Usage:
     python3 scheduler.py --frame-skip 5           # process every 5th frame
     python3 scheduler.py --once                   # single scan, then exit
 """
+# final code
 
 import argparse
 import csv
