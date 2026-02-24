@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pt
+runs/
+logs/
+files/input/
+files/output/
+.DS_Store
+*.pyc

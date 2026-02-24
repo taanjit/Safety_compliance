@@ -1,0 +1,12 @@
+# Ignore these in Docker builds
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+.git/
+.gitignore
+*.md
+logs/
+files/
+*.egg-info/
