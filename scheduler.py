@@ -81,7 +81,7 @@ def _append_log(video_path: Path):
 def _log_print(msg: str):
     """Print with a timestamp prefix."""
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{ts}] {msg}")
+    print(f"[{ts}] {msg}", flush=True)
 
 
 # ──────────────────────────────────────────────────────────────
@@ -93,8 +93,13 @@ def _discover_new_videos(processed: set[str]) -> list[Path]:
     input_dir = settings.INPUT_DIR
     new_files = []
     if not input_dir.exists():
+        _log_print(f"  ⚠️  Input dir does not exist: {input_dir}")
         return new_files
-    for f in sorted(input_dir.rglob("*")):
+    
+    all_files = list(input_dir.rglob("*"))
+    # _log_print(f"  🔍 Scanned {len(all_files)} total items in {input_dir}")
+    
+    for f in sorted(all_files):
         if f.is_file() and f.suffix.lower() in VIDEO_EXTENSIONS:
             if str(f.resolve()) not in processed:
                 new_files.append(f)
