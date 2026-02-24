@@ -21,17 +21,17 @@ env/
 *.tar
 
 # YOLO model weights
-*.pt
+# *.pt
 
 # YOLO training runs
-runs/
+# runs/
 
 # Logs
 logs/
 
 # Input/Output data files
-files/input/
-files/output/
+# files/input/
+# files/output/
 
 # OS files
 .DS_Store
@@ -39,3 +39,8 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# video and log files
+*.mp4
+*.avi
+*.csv
